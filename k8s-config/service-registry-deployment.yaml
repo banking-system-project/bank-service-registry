@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: service-registry-deploy
+  labels:
+    name: service-registry-deploy
+    app: banking-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: service-registry-deploy
+      app: banking-system
+  template:
+    metadata:
+      labels:
+        name: service-registry-deploy
+        app: banking-system
+    spec:
+      containers:
+        - name: service-registry-deploy
+          image: prithwi8972/bank-service-registry:1.0
+          resources:
+            limits:
+              memory: "900Mi"
+              cpu: 400m
+            requests:
+              memory: "600Mi"
+              cpu: 200m
+          ports:
+            - containerPort: 8085
+  serviceName: "service-registry-deploy"
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-registry-deploy
+spec:
+  clusterIP: None
+  selector:
+    app: banking-system
+  ports:
+    - port: 8085
+      name: service-registry-deploy
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-registry-lb
+spec:
+  type: NodePort
+  selector:
+    app: banking-system
+  ports:
+    - port: 80
+      targetPort: 8085
+      nodePort: 30004

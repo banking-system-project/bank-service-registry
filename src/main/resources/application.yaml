@@ -3,7 +3,13 @@ server:
 
 eureka:
   instance:
-    hostname: localhost
+    hostname: "${HOSTNAME:localhost}.eureka"
   client:
     register-with-eureka: false
     fetch-registry: false
+
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
