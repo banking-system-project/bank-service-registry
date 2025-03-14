@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: service-registry-deploy
-          image: prithwi8972/bank-service-registry:1.0
+          image: prithwi8972/bank-service-registry:1.1.1
           resources:
             limits:
               memory: "900Mi"
@@ -56,6 +56,6 @@ spec:
   selector:
     app: banking-system
   ports:
-    - port: 80
+    - port: 8085
       targetPort: 8085
       nodePort: 30004
